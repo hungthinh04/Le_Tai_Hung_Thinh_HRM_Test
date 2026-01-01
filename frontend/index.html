@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HRM Labs - Employee & Leave Management</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>HRM Labs</h1>
+        <p>Employee & Leave Management System</p>
+      </header>
+
+      <!-- Navigation Menu -->
+      <nav class="nav-menu">
+        <button class="nav-btn active" data-page="employees-list">
+          All Employees
+        </button>
+        <button class="nav-btn" data-page="leave-list">
+          All Leave Requests
+        </button>
+      </nav>
+
+      <!-- Page: All Employees (Default) -->
+      <div id="employees-list" class="page active">
+        <div class="page-header">
+          <h2>All Employees</h2>
+          <div class="header-actions">
+            <input
+              type="text"
+              id="employeeSearch"
+              class="search-input"
+              placeholder="Search..."
+              onkeyup="filterEmployees()"
+            />
+            <button class="btn-primary" onclick="showPage('add-employee')">
+              + Add Employee
+            </button>
+          </div>
+        </div>
+        <div class="table-container">
+          <table id="employeesTable">
+            <thead>
+              <tr>
+                <th>No.</th>
+                <th
+                  onclick="sortEmployees('name')"
+                  style="cursor: pointer"
+                  title="Click to sort"
+                >
+                  Name ⇅
+                </th>
+                <th
+                  onclick="sortEmployees('department')"
+                  style="cursor: pointer"
+                  title="Click to sort"
+                >
+                  Department ⇅
+                </th>
+                <th
+                  onclick="sortEmployees('leaveBalance')"
+                  style="cursor: pointer"
+                  title="Click to sort"
+                >
+                  Leave Balance ⇅
+                </th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="employeesTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Page: All Leave Requests -->
+      <div id="leave-list" class="page">
+        <div class="page-header">
+          <h2>All Leave Requests</h2>
+          <div class="header-actions">
+            <input
+              type="text"
+              id="leaveSearch"
+              class="search-input"
+              placeholder="🔍 Search..."
+              onkeyup="filterLeaveRequests()"
+            />
+            <button class="btn-primary" onclick="showPage('add-leave')">
+              + Add Leave Request
+            </button>
+          </div>
+        </div>
+        <div class="table-container">
+          <table id="leaveTable">
+            <thead>
+              <tr>
+                <th>No.</th>
+                <th
+                  onclick="sortLeaveRequests('employeeId')"
+                  style="cursor: pointer"
+                  title="Click to sort"
+                >
+                  Employee ID ⇅
+                </th>
+                <th
+                  onclick="sortLeaveRequests('startDate')"
+                  style="cursor: pointer"
+                  title="Click to sort"
+                >
+                  Start Date ⇅
+                </th>
+                <th
+                  onclick="sortLeaveRequests('endDate')"
+                  style="cursor: pointer"
+                  title="Click to sort"
+                >
+                  End Date ⇅
+                </th>
+                <th
+                  onclick="sortLeaveRequests('reason')"
+                  style="cursor: pointer"
+                  title="Click to sort"
+                >
+                  Reason ⇅
+                </th>
+                <th
+                  onclick="sortLeaveRequests('status')"
+                  style="cursor: pointer"
+                  title="Click to sort"
+                >
+                  Status ⇅
+                </th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="leaveTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Page: Add Employee -->
+      <div id="add-employee" class="page">
+        <div class="page-header">
+          <h2>Add New Employee</h2>
+          <button class="btn-secondary" onclick="showPage('employees-list')">
+            ← Back to Employees
+          </button>
+        </div>
+        <div class="form-container">
+          <form id="employeeForm">
+            <div class="form-group">
+              <label for="name">Name:</label>
+              <input type="text" id="name" name="name" required />
+            </div>
+            <div class="form-group">
+              <label for="department">Department:</label>
+              <input type="text" id="department" name="department" required />
+            </div>
+            <div class="form-group">
+              <label for="leaveBalance">Leave Balance:</label>
+              <input
+                type="number"
+                id="leaveBalance"
+                name="leaveBalance"
+                min="0"
+                required
+              />
+            </div>
+            <div class="form-actions">
+              <button type="submit" class="btn-primary">Add Employee</button>
+              <button
+                type="button"
+                class="btn-secondary"
+                onclick="showPage('employees-list')"
+              >
+                Cancel
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Page: Add Leave Request -->
+      <div id="add-leave" class="page">
+        <div class="page-header">
+          <h2>Create Leave Request</h2>
+          <button class="btn-secondary" onclick="showPage('leave-list')">
+            ← Back to Leave Requests
+          </button>
+        </div>
+        <div class="form-container">
+          <form id="leaveForm">
+            <div class="form-group">
+              <label for="employeeId">Employee:</label>
+              <select id="employeeId" name="employeeId" required>
+                <option value="">-- Select Employee --</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="startDate">Start Date:</label>
+              <input type="date" id="startDate" name="startDate" required />
+            </div>
+            <div class="form-group">
+              <label for="endDate">End Date:</label>
+              <input type="date" id="endDate" name="endDate" required />
+            </div>
+            <div class="form-group">
+              <label for="reason">Reason:</label>
+              <textarea id="reason" name="reason" rows="3" required></textarea>
+            </div>
+            <div class="form-actions">
+              <button type="submit" class="btn-primary">
+                Create Leave Request
+              </button>
+              <button
+                type="button"
+                class="btn-secondary"
+                onclick="showPage('leave-list')"
+              >
+                Cancel
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Page: Employee Detail -->
+      <div id="employee-detail" class="page">
+        <div class="page-header">
+          <h2>Employee Details</h2>
+          <button class="btn-secondary" onclick="showPage('employees-list')">
+            ← Back to Employees
+          </button>
+        </div>
+        <div class="detail-container" id="employeeDetailContent">
+          <!-- Content will be loaded dynamically -->
+        </div>
+      </div>
+
+      <!-- Page: Leave Request Detail -->
+      <div id="leave-detail" class="page">
+        <div class="page-header">
+          <h2>Leave Request Details</h2>
+          <button class="btn-secondary" onclick="showPage('leave-list')">
+            ← Back to Leave Requests
+          </button>
+        </div>
+        <div class="detail-container" id="leaveDetailContent">
+          <!-- Content will be loaded dynamically -->
+        </div>
+      </div>
+
+      <!-- Message Display -->
+      <div id="message" class="message"></div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
