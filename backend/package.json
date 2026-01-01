@@ -1,0 +1,16 @@
+{
+  "name": "hrm-backend",
+  "version": "1.0.0",
+  "description": "HRM Labs Backend API",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": ["hrm", "api", "express"],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
+
